@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [windows-latest]
 
     steps:
       - name: Check out Git repository
@@ -22,11 +22,11 @@ jobs:
 
       - name: npm install
         run: |
-          npm install
+          npm install --force
 
       - name: npm test
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: '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'
         run: |
           npm run package
           npm run lint
