@@ -26,7 +26,7 @@ jobs:
 
       - name: npm test
         env:
-          GH_TOKEN: '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'
+          GH_TOKEN: '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'
         run: |
           npm run package
           npm run lint
