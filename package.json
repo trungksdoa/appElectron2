@@ -14,7 +14,7 @@
     "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
-    "release":"set GH_TOKEN=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 && yarn run package",
+    "release": "set GH_TOKEN=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 && yarn run package",
     "test": "jest",
     "prepare": "husky install"
   },
@@ -58,7 +58,8 @@
       "gatekeeperAssess": false
     },
     "dmg": {
-      "contents": [{
+      "contents": [
+        {
           "x": 130,
           "y": 220
         },
@@ -104,7 +105,8 @@
     "email": "trungksdoa@gmail.com",
     "url": "https://github.com/trungksdoa/appElectron"
   },
-  "contributors": [{
+  "contributors": [
+    {
       "name": "Amila Welihinda",
       "email": "amilajack@gmail.com",
       "url": "https://github.com/amilajack"
@@ -245,7 +247,9 @@
     "electron-updater": "^4.6.5",
     "formik": "^2.2.9",
     "history": "^5.3.0",
-    "material-table": "1.69.3",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.23",
+    "material-table": "^1.63.0",
     "query-string": "^7.1.1",
     "react": "^18.0.0",
     "react-currency-format": "^1.1.0",
@@ -264,15 +268,17 @@
   },
   "browserslist": [],
   "prettier": {
-    "overrides": [{
-      "files": [
-        ".prettierrc",
-        ".eslintrc"
-      ],
-      "options": {
-        "parser": "json"
+    "overrides": [
+      {
+        "files": [
+          ".prettierrc",
+          ".eslintrc"
+        ],
+        "options": {
+          "parser": "json"
+        }
       }
-    }],
+    ],
     "singleQuote": true
   }
 }
