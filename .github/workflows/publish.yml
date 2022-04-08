@@ -38,7 +38,7 @@ jobs:
           #          CSC_LINK: 'file://'
           #          CSC_KEY_PASSWORD:
           # This is used for uploading release assets to github
-          GH_TOKEN: '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'
+          GH_TOKEN: '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'
         run: |
           npm run postinstall
           npm run build
