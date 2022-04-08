@@ -35,8 +35,8 @@ jobs:
           # These values are used for auto updates signing
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
-          CSC_LINK: 'file://'
-          CSC_KEY_PASSWORD:
+          #          CSC_LINK: 'file://'
+          #          CSC_KEY_PASSWORD:
           # This is used for uploading release assets to github
           GH_TOKEN: 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
         run: |
