@@ -14,7 +14,7 @@
     "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
-    "release": "set GH_TOKEN=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 && yarn run package",
+    "release": "yarn run package",
     "test": "jest",
     "prepare": "husky install"
   },
@@ -33,7 +33,7 @@
     ]
   },
   "build": {
-    "productName": "Ứng dụng bán hàng",
+    "productName": "Ứng_dụng_bán_hàng",
     "appId": "org.erb.store",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
