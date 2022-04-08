@@ -30,14 +30,11 @@
 //     return <Slide direction="up" ref={ref} {...props} />;
 // });
 
-
 // interface PhotoProps {
 //     field: any,
 //     form: any,
 //     label: string,
 // }
-
-
 
 // function RandomPhotoField(props: PhotoProps) {
 //     const { field, form, label } = props;
@@ -169,7 +166,7 @@
 //                                                                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
 //                                                                 aria-label={`info about ${item.name}`}
 //                                                             >
-                                                      
+
 //                                                             </IconButton>
 //                                                         }
 //                                                     />
@@ -265,4 +262,3 @@
 //     },
 // ];
 // export default RandomPhotoField;
-

@@ -1,7 +1,4 @@
-import Product from "./Product";
-import Catagory from "./Catagory";
+import Product from './Product';
+import Catagory from './Catagory';
 
-export {
-    Product,
-    Catagory
-}
+export { Product, Catagory };

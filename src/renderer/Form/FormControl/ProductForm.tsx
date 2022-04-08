@@ -1,10 +1,11 @@
-import { Formik, Form, FieldArray } from 'formik';
+/*eslint-disable */
+import {Formik, Form, FieldArray} from 'formik';
 import PropTypes from 'prop-types';
-import { Box, Container, Divider } from '@mui/material';
+import {Box, Container, Divider} from '@mui/material';
 
+import {productAPI} from 'api/productAPI';
+import {useNavigate} from 'react-router-dom';
 import ProductFormList from './ProductFormList';
-import { productAPI } from 'api/productAPI';
-import { useNavigate } from 'react-router-dom';
 
 interface Values {
   products: [
@@ -19,12 +20,15 @@ interface Values {
   ];
 }
 
+/*eslint-disable */
 ProductForm.propTypes = {
   onSubmit: PropTypes.func,
 };
+// eslint-disable-next-line
 ProductForm.defaultProps = {
   onSubmit: null,
 };
+
 function ProductForm() {
   const navigate = useNavigate();
 
@@ -85,36 +89,39 @@ function ProductForm() {
         >
           {(formikProps) => {
             // do something here ...
-            const { values, errors, touched } = formikProps;
-            const getValues = JSON.stringify(values, undefined, 2);
-            const getError = JSON.stringify(errors, undefined, 2);
-            // console.log(getValues);
-            // console.log(getError);
+            /*eslint-disable */
+            const {values} = formikProps;
             return (
               <>
                 <Form>
                   <FieldArray name="products">
-                    {({ insert, remove, push }) => {
+                    {({remove, push}) => {
                       function removeRow(index: number) {
                         if (values.products.length <= 1) {
                           return;
                         }
                         remove(index);
                       }
+
+
                       return (
+
                         <>
                           {values.products.length > 0 &&
-                            values.products.map((pr, index) => (
-                              <ProductFormList
-                                key={index * 2}
-                                remove={removeRow}
-                                arr={values}
-                                index={index}
-                              />
-                            ))}
-                          <br />
-                          <Divider />
-                          <br />
+                          /*eslint-disable */
+                          values.products.map((index) => ( // eslint-disable-line
+                            <ProductFormList
+                              /*eslint-disable */
+                              // @ts-ignore
+                              key={index * 2}
+                              remove={removeRow}
+                              arr={values}
+                              index={index}
+                            />
+                          ))}
+                          <br/>
+                          <Divider/>
+                          <br/>
                           <button
                             type="button"
                             className="secondary"

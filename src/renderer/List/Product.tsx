@@ -4,6 +4,8 @@ import { productAPI } from 'api/productAPI';
 import { CurrencyFormat } from 'words/words';
 import MaterialTable from './MaterialTable';
 
+/*eslint-disable */
+// @ts-ignore
 function nonAccentVietnamese(str: any) {
   str = str.toLowerCase();
   //     We can also use this instead of from line 11 to line 17
