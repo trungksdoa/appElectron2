@@ -83,37 +83,6 @@ const createWindow = async () => {
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
   });
-
-  // Auto Update
-  function sendStatusToWindow(text: string) {
-    log.info(text);
-    mainWindow.webContents.send('message', text);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  autoUpdater.on('checking-for-update', () => {
-    sendStatusToWindow('Checking for update...');
-  });
-  autoUpdater.on('update-available', () => {
-    sendStatusToWindow('Update available.');
-  });
-  autoUpdater.on('update-not-available', () => {
-    sendStatusToWindow('Update not available.');
-  });
-  autoUpdater.on('error', (err) => {
-    sendStatusToWindow(`Error in auto-updater. ${err}`);
-  });
-  autoUpdater.on('download-progress', (progressObj) => {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    let log_message = `Download speed: ${progressObj.bytesPerSecond}`;
-    log_message = `${log_message} - Downloaded ${progressObj.percent}%`;
-    log_message = `${log_message} (${progressObj.transferred}/${progressObj.total})`;
-    sendStatusToWindow(log_message);
-  });
-  autoUpdater.on('update-downloaded', () => {
-    sendStatusToWindow('Update downloaded');
-  });
-  // End Update
   // Store
 
   ipcMain.on('electron-store-get', async (event, val) => {
@@ -157,6 +126,37 @@ const createWindow = async () => {
   // eslint-disable-next-line
   new AppUpdater()
 };
+
+// Auto Update
+// function sendStatusToWindow(text: string) {
+//   log.info(text);
+//   mainWindow.webContents.send('message', text);
+// }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+autoUpdater.on('checking-for-update', () => {
+  console.log('Checking for update...');
+});
+autoUpdater.on('update-available', () => {
+  console.log('Update available.');
+});
+autoUpdater.on('update-not-available', () => {
+  console.log('Update not available.');
+});
+autoUpdater.on('error', (err) => {
+  console.log(`Error in auto-updater. ${err}`);
+});
+autoUpdater.on('download-progress', (progressObj) => {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  let log_message = `Download speed: ${progressObj.bytesPerSecond}`;
+  log_message = `${log_message} - Downloaded ${progressObj.percent}%`;
+  log_message = `${log_message} (${progressObj.transferred}/${progressObj.total})`;
+  console.log(log_message);
+});
+autoUpdater.on('update-downloaded', () => {
+  console.log('Update downloaded');
+});
+// End Update
 
 /**
  * Add event listeners...
