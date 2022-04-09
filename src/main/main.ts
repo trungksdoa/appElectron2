@@ -83,6 +83,8 @@ const createWindow = async () => {
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
   });
+
+  // End Update
   // Store
 
   ipcMain.on('electron-store-get', async (event, val) => {
@@ -124,39 +126,9 @@ const createWindow = async () => {
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
-  new AppUpdater()
+  // trigger autoupdate check
+  await autoUpdater.checkForUpdates();
 };
-
-// Auto Update
-// function sendStatusToWindow(text: string) {
-//   log.info(text);
-//   mainWindow.webContents.send('message', text);
-// }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-autoUpdater.on('checking-for-update', () => {
-  console.log('Checking for update...');
-});
-autoUpdater.on('update-available', () => {
-  console.log('Update available.');
-});
-autoUpdater.on('update-not-available', () => {
-  console.log('Update not available.');
-});
-autoUpdater.on('error', (err) => {
-  console.log(`Error in auto-updater. ${err}`);
-});
-autoUpdater.on('download-progress', (progressObj) => {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  let log_message = `Download speed: ${progressObj.bytesPerSecond}`;
-  log_message = `${log_message} - Downloaded ${progressObj.percent}%`;
-  log_message = `${log_message} (${progressObj.transferred}/${progressObj.total})`;
-  console.log(log_message);
-});
-autoUpdater.on('update-downloaded', () => {
-  console.log('Update downloaded');
-});
-// End Update
 
 /**
  * Add event listeners...
@@ -181,3 +153,39 @@ app
     });
   })
   .catch(console.log);
+
+// Auto Update
+function sendStatusToWindow(text: string) {
+  log.info(text);
+  mainWindow.webContents.send('message', text);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+autoUpdater.on('checking-for-update', () => {
+  sendStatusToWindow('Checking for update...');
+});
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+autoUpdater.on('update-available', () => {
+  sendStatusToWindow('Update available.');
+});
+autoUpdater.on('update-not-available', () => {
+  sendStatusToWindow('Update not available.');
+});
+autoUpdater.on('error', (err) => {
+  sendStatusToWindow(`Error in auto-updater: ${err.toString()}`);
+});
+autoUpdater.on('download-progress', (progressObj) => {
+  sendStatusToWindow(
+    `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred} + '/' + ${progressObj.total} + )`
+  );
+});
+autoUpdater.on('update-downloaded', () => {
+  sendStatusToWindow('Update downloaded; will install now');
+});
+
+autoUpdater.on('update-downloaded', () => {
+  // Wait 5 seconds, then quit and install
+  // In your application, you don't need to wait 500 ms.
+  // You could call autoUpdater.quitAndInstall(); immediately
+  autoUpdater.quitAndInstall();
+});
