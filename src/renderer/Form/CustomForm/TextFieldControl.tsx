@@ -43,6 +43,9 @@ function InputField(props: any): JSX.Element {
         id={name}
         type={type}
         {...field}
+        InputLabelProps={{
+          shrink: true,
+        }}
         disabled={disabled}
         label={placeholder}
         variant="filled"

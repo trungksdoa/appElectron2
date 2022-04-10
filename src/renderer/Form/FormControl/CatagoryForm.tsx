@@ -4,6 +4,7 @@ import { Box, Container, Divider } from '@mui/material';
 import { productAPI } from 'api/productAPI';
 import { useNavigate } from 'react-router-dom';
 import CatagoryFormList from './CategoryFormList';
+// import { dialog } from 'electron';
 
 interface Values {
   catagorys: [
@@ -50,13 +51,16 @@ function CatagoryUpload() {
               .insertCatagory(values.catagorys)
               // eslint-disable-next-line promise/always-return
               .then(() => {
-                // Cookie.set("ast", JSON.stringify(res.success.secrect.ast), 30); //set "user_email" cookie, expires in 30 days
-                alert('Thêm thành công');
+                window.electron.ipcRenderer.sendMessage(
+                  'Thêm dữ liệu thành công'
+                );
                 actions.resetForm();
-                navigate('/');
+                window.electron.ipcRenderer.once('ipc-message-dialog', () => {
+                  navigate('/');
+                });
               })
-              .catch(() => {
-                console.log('err.error');
+              .catch((error) => {
+                window.electron.ipcRenderer.sendError(error);
               });
           }}
         >
@@ -80,10 +84,11 @@ function CatagoryUpload() {
                       return (
                         <>
                           {values.catagorys.length > 0 &&
-                            values.catagorys.map((index) => (
+                            values.catagorys.map((_data, index) => (
                               <CatagoryFormList
                                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                 // @ts-ignore
+                                /* eslint-disable-next-line react/no-array-index-key */
                                 key={index}
                                 /* eslint-disable-next-line react/jsx-no-bind */
                                 remove={removeRow}

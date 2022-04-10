@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { UserAPI } from 'api/userAPI';
 import { cookie2 } from 'cookieStore';
 import { useNavigate } from 'react-router-dom';
+import { Box } from '@mui/material';
+import { Container } from 'reactstrap';
 import { TextFieldControl } from '../CustomForm';
 
 interface Values {
@@ -35,11 +37,13 @@ function Loginss() {
 
         cookie2.set('ast', JSON.stringify(res.success.secrect.ast));
 
-        alert('Login success');
-        // console.log(res)
+        window.electron.ipcRenderer.once('ipc-message-dialog', () => {
+          navigate('/');
+        });
+        window.electron.ipcRenderer.sendMessage('Đăng nhập thành công');
       })
       .catch((err) => {
-        alert(err);
+        window.electron.ipcRenderer.sendError(err);
       });
     //
   };
@@ -49,47 +53,53 @@ function Loginss() {
     password: 1234,
   };
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={SignupSchema}
-      onSubmit={(values, actions) => {
-        setTimeout(() => {
-          actions.setSubmitting(false);
-          navigate('/');
-          actions.resetForm();
-          sendLogin(values);
-        }, 1000);
-      }}
-    >
-      {(formikProps) => {
-        // do something here ...
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { values, errors, touched } = formikProps;
-        console.log(errors, touched);
-        return (
-          <>
-            <Form>
-              <FastField
-                name="username"
-                component={TextFieldControl}
-                type="text"
-                label="Tên đăng nhập :"
-                placeholder="admin"
-              />
-              <FastField
-                name="password"
-                component={TextFieldControl}
-                type="text"
-                label="Mật khẩu :"
-                placeholder="1234"
-              />
-              <button type="submit">Submit</button>
-            </Form>
-            <p>{JSON.stringify(values, undefined)}</p>
-          </>
-        );
-      }}
-    </Formik>
+    <Container maxWidth="sm">
+      <Box
+        sx={{
+          width: '100%',
+          margin: '30px auto',
+        }}
+      >
+        <Formik
+          initialValues={initialValues}
+          validationSchema={SignupSchema}
+          onSubmit={(values, actions) => {
+            setTimeout(() => {
+              sendLogin(values);
+              actions.resetForm();
+              actions.setSubmitting(false);
+            }, 1000);
+          }}
+        >
+          {() => {
+            // do something here ...
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            // const { values } = formikProps;
+            return (
+              <>
+                <Form>
+                  <FastField
+                    name="username"
+                    component={TextFieldControl}
+                    type="text"
+                    label="Tên đăng nhập :"
+                    placeholder="admin"
+                  />
+                  <FastField
+                    name="password"
+                    component={TextFieldControl}
+                    type="text"
+                    label="Mật khẩu :"
+                    placeholder="1234"
+                  />
+                  <button type="submit">Submit</button>
+                </Form>
+              </>
+            );
+          }}
+        </Formik>
+      </Box>
+    </Container>
   );
 }
 

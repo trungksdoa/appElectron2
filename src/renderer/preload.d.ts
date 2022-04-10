@@ -2,6 +2,8 @@ declare global {
   interface Window {
     electron: {
       ipcRenderer: {
+        sendMessage(value: any): void;
+        sendError(value: any): void;
         myPing(): void;
         on(
           channel: string,

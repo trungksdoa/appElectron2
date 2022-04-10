@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { productAPI } from 'api/productAPI';
 import { CurrencyFormat } from 'words/words';
 import MaterialTable from './MaterialTable';
-
+// import {getProducts} from 'server/productDB'
 /*eslint-disable */
 // @ts-ignore
 function nonAccentVietnamese(str: any) {
@@ -68,6 +68,8 @@ export default function CustomizedTables() {
       id:0
     }
   };
+
+  // console.log(getProducts)
   const [products, setProducts] = useState([initialValues]);
   async function fetchData() {
     await productAPI
@@ -80,7 +82,7 @@ export default function CustomizedTables() {
           })
         );
       })
-      .catch((e) => console.log(e));
+      .catch((e) => window.electron.ipcRenderer.sendError(e));
   }
 
   useEffect(() => {
@@ -179,34 +181,27 @@ export default function CustomizedTables() {
 
   const handleRowUpdate = async (
     newData: MaterialTableProductInterface,
-    oldData: { category: any; tableData: { id: any } },
-    resolve: () => void
+    oldData: { category: any; tableData: { id: any } }
   ) => {
     await productAPI
       .updateProduct(payload(newData))
       .then(function (respone: ProductInterface) {
         const updateProduct = {...products}
         const index = oldData.tableData.id;
-        // updateProduct[index] = payload(newData);
-        console.log(oldData);
         updateProduct[index].barrel_price = respone.barrel_price
         updateProduct[index].whirlwind_price = respone.whirlwind_price
         updateProduct[index].Single_price = respone.Single_price
         updateProduct[index].Gift = respone.Gift
         updateProduct[index].name = respone.name
         updateProduct[index].tableData.id = oldData.tableData.id
-        resolve();
       })
       .catch((e) => {
-        console.log(e);
+        window.electron.ipcRenderer.sendError(e);
       });
   };
-  console.log(products);
   //function for deleting a row
   const handleRowDelete = async (
     oldData: { id: any; tableData: { id: any } },
-    resolve: () => void,
-    reject: (arg0: any) => void
   ) => {
     await productAPI
       .deleteProduct(oldData.id)
@@ -218,10 +213,9 @@ export default function CustomizedTables() {
 
           setProducts([...dataDelete]);
         }
-        resolve();
       })
       .catch((e) => {
-        reject(e);
+        window.electron.ipcRenderer.sendError(e);
       });
   };
 

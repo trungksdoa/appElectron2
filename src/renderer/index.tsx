@@ -6,14 +6,16 @@ const container = document.getElementById('root')!;
 const root = createRoot(container);
 root.render(<App />);
 
-console.log('I am updated');
-window.electron.ipcRenderer.on('message', (event, text) => {
+// calling IPC exposed from preload script
+// window.electron.ipcRenderer.once('ipc-example', (arg) => {
+//   // eslint-disable-next-line no-console
+//   console.log(arg);
+//   console.log('I am updated');
+
+// });
+window.electron.ipcRenderer.once('message', (event, text) => {
+  // eslint-disable-next-line no-console
   console.log(event);
+  // eslint-disable-next-line no-console
   console.log('Message from updater:', text);
 });
-// calling IPC exposed from preload script
-window.electron.ipcRenderer.once('ipc-example', (arg) => {
-  // eslint-disable-next-line no-console
-  console.log(arg);
-});
-window.electron.ipcRenderer.myPing();

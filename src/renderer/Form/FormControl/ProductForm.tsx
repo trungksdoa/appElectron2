@@ -1,36 +1,36 @@
 /*eslint-disable */
-import {Formik, Form, FieldArray} from 'formik';
-import PropTypes from 'prop-types';
-import {Box, Container, Divider} from '@mui/material';
+import { Formik, Form, FieldArray } from 'formik'
+import PropTypes from 'prop-types'
+import { Box, Container, Divider } from '@mui/material'
 
-import {productAPI} from 'api/productAPI';
-import {useNavigate} from 'react-router-dom';
-import ProductFormList from './ProductFormList';
+import { productAPI } from 'api/productAPI'
+import { useNavigate } from 'react-router-dom'
+import ProductFormList from './ProductFormList'
 
 interface Values {
   products: [
     {
-      name: string;
-      barrel_price: number;
-      whirlwind_price: number;
-      Single_price: number;
-      Gift: string;
-      category: object;
+      name: string
+      barrel_price: number
+      whirlwind_price: number
+      Single_price: number
+      Gift: string
+      category: object
     }
-  ];
+  ]
 }
 
 /*eslint-disable */
 ProductForm.propTypes = {
-  onSubmit: PropTypes.func,
-};
+  onSubmit: PropTypes.func
+}
 // eslint-disable-next-line
 ProductForm.defaultProps = {
-  onSubmit: null,
-};
+  onSubmit: null
+}
 
-function ProductForm() {
-  const navigate = useNavigate();
+function ProductForm () {
+  const navigate = useNavigate()
 
   // const SignupSchema = Yup.object().shape({
   //     products: Yup.array()
@@ -56,99 +56,104 @@ function ProductForm() {
         Gift: '',
         category: {
           id: 0,
-          name: '',
-        },
-      },
-    ],
-  };
+          name: ''
+        }
+      }
+    ]
+  }
   return (
-    <Container maxWidth="md">
+    <Container maxWidth='md'>
       <Box
         sx={{
           width: '80%',
-          margin: '30px auto',
+          margin: '30px auto'
         }}
       >
         <Formik
           initialValues={initialValues}
           onSubmit={async (values, actions) => {
-            actions.setSubmitting(false);
+            actions.setSubmitting(false)
 
             await productAPI
               .insertProduct(values.products)
               .then(() => {
                 // Cookie.set("ast", JSON.stringify(res.success.secrect.ast), 30); //set "user_email" cookie, expires in 30 days
-                alert('Thêm thành công');
-                actions.resetForm();
-                navigate('/');
+                window.electron.ipcRenderer.sendMessage(
+                  'Thêm dữ liệu thành công'
+                );
+                actions.resetForm()
+                window.electron.ipcRenderer.once('ipc-message-dialog', () => {
+                  navigate('/')
+                });
               })
-              .catch(() => {
-                console.log('err.error');
+              .catch(error => {
+                window.electron.ipcRenderer.sendError(error)
               });
           }}
         >
-          {(formikProps) => {
+          {formikProps => {
             // do something here ...
             /*eslint-disable */
-            const {values} = formikProps;
+            const { values } = formikProps
             return (
               <>
                 <Form>
-                  <FieldArray name="products">
-                    {({remove, push}) => {
-                      function removeRow(index: number) {
+                  <FieldArray name='products'>
+                    {({ remove, push }) => {
+                      function removeRow (index: number) {
                         if (values.products.length <= 1) {
-                          return;
+                          return
                         }
-                        remove(index);
+                        remove(index)
                       }
 
-
                       return (
-
                         <>
                           {values.products.length > 0 &&
-                          /*eslint-disable */
-                          values.products.map((index) => ( // eslint-disable-line
-                            <ProductFormList
-                              /*eslint-disable */
-                              // @ts-ignore
-                              key={index * 2}
-                              remove={removeRow}
-                              arr={values}
-                              index={index}
-                            />
-                          ))}
-                          <br/>
-                          <Divider/>
-                          <br/>
+                            /*eslint-disable */
+                            values.products.map((
+                              _data,
+                              index // eslint-disable-line
+                            ) => (
+                              <ProductFormList
+                                /*eslint-disable */
+                                // @ts-ignore
+                                key={index * 2}
+                                remove={removeRow}
+                                arr={values}
+                                index={index}
+                              />
+                            ))}
+                          <br />
+                          <Divider />
+                          <br />
                           <button
-                            type="button"
-                            className="secondary"
+                            type='button'
+                            className='secondary'
                             onClick={() =>
                               push({
                                 name: '',
-                                price: 0,
+                                price: 0
                               })
                             }
                           >
                             Thêm hàng
                           </button>
                         </>
-                      );
+                      )
                     }}
                   </FieldArray>
-                  <button type="submit">Xác nhận</button>
+                  <button type='submit'>Xác nhận</button>
                 </Form>
 
                 {/* <pre>{getValues}</pre> */}
               </>
-            );
+            )
           }}
         </Formik>
       </Box>
     </Container>
-  );
+  )
 }
 
-export default ProductForm;
+export default ProductForm

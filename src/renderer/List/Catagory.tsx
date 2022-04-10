@@ -59,8 +59,7 @@ export default function Catagorys() {
 
   const handleRowUpdate = async (
     newData: never,
-    oldData: { tableData: { id: any } },
-    resolve: () => void
+    oldData: { tableData: { id: any } }
   ) => {
     await productAPI
       .updateCatagory(newData)
@@ -71,19 +70,17 @@ export default function Catagorys() {
         updateCatagory[index] = newData;
 
         setCatagorys(updateCatagory);
-        resolve();
       })
       .catch((e) => {
-        console.log(e);
+        window.electron.ipcRenderer.sendError(e);
       });
   };
 
   // function for deleting a row
-  const handleRowDelete = async (
-    oldData: { id: any; tableData: { id: any } },
-    resolve: () => void,
-    reject: (arg0: any) => void
-  ) => {
+  const handleRowDelete = async (oldData: {
+    id: any;
+    tableData: { id: any };
+  }) => {
     await productAPI
       .deleteCatagory(oldData.id)
       .then((respone) => {
@@ -95,10 +92,9 @@ export default function Catagorys() {
 
           setCatagorys([...dataDelete]);
         }
-        resolve();
       })
       .catch((e) => {
-        reject(e);
+        window.electron.ipcRenderer.sendError(e);
       });
   };
 

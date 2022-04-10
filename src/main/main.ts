@@ -9,15 +9,17 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
 import log from 'electron-log';
 import Store from 'electron-store';
+import { Alert } from './library';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
 const store = new Store();
+// const icp = ipcRenderer;
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -27,12 +29,6 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
-
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -84,8 +80,49 @@ const createWindow = async () => {
     },
   });
 
-  // End Update
   // Store
+
+  ipcMain.on('ipc-message-dialog', async (event, message) => {
+    const msgTemplate = (pingPong: string) => `Reply: ${pingPong}`;
+    const swalOptions = {
+      position: 'top-end',
+      title: message,
+      icon: 'success',
+      showConfirmButton: true,
+      timer: 3000,
+    };
+
+    Alert.fireToast(swalOptions);
+    event.reply('ipc-message-dialog', msgTemplate(message));
+    // dialog
+    //   .showMessageBox(mainWindow, {
+    //     message: `${message}`,
+    //     type: 'info',
+    //     title: 'Thông báo',
+    //     buttons: ['Xác nhận'],
+    //     defaultId: 0
+    //   })
+    //   .then(result => {
+    //     if (result.response === 0) {
+
+    //     }
+    //   })
+  });
+  ipcMain.on('ipc-error-dialog', async function (event, message) {
+    dialog.showMessageBox(mainWindow, {
+      message,
+      type: 'error',
+      title: 'Lỗi',
+    });
+    const msgTemplate = (pingPong: string) => `Reply: ${pingPong}`;
+    event.reply('ipc-error-dialog', msgTemplate(message));
+  });
+
+  ipcMain.on('ipc-example', async (event, arg) => {
+    const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
+    console.log(msgTemplate(arg));
+    event.reply('ipc-example', msgTemplate('pong'));
+  });
 
   ipcMain.on('electron-store-get', async (event, val) => {
     event.returnValue = store.get(val);
@@ -127,7 +164,13 @@ const createWindow = async () => {
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   // trigger autoupdate check
-  await autoUpdater.checkForUpdates();
+
+  // if (isDevelopment) {
+  //   // Skip autoupdate check
+  // } else {
+
+  // }
+  autoUpdater.checkForUpdates();
 };
 
 /**

@@ -64,15 +64,15 @@ export default function MaterialTable(props) {
   // function for updating the existing row details
   function updateData(newData, oldData, resolve, reject) {
     if (handleRowUpdate) {
-      handleRowUpdate(newData, oldData, resolve, reject);
+      handleRowUpdate(newData, oldData);
     }
   }
   function deleteData(oldData, resolve, reject) {
     if (handleRowDelete) {
-      handleRowDelete(oldData, resolve, reject);
+      handleRowDelete(oldData);
     }
   }
-
+  console.log(data)
   return (
     <>
       <MaterialTable
@@ -87,18 +87,15 @@ export default function MaterialTable(props) {
           actionsColumnIndex: -1,
           search: true,
           grouping: true,
-          pageSize: 10,
-          export: true,
+          pageSize: 5
         }}
         editable={{
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              updateData(newData, oldData, resolve, reject);
-            }),
-          onRowDelete: (oldData) =>
-            new Promise((resolve, reject) => {
-              deleteData(oldData, resolve, reject);
-            }),
+          onRowUpdate: (newData, oldData) =>{
+            updateData(newData, oldData);
+          },
+          onRowDelete: (oldData) =>{
+            deleteData(oldData);
+          },
         }}
         icons={tableIcons}
         title={title}

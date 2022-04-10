@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ErrorMessage, FastField } from 'formik';
-import { Divider, FormGroup, Input, Typography } from '@mui/material';
+import { Divider } from '@mui/material';
 import { productAPI } from 'api/productAPI';
 import {
   TextFieldControl,
@@ -36,8 +36,7 @@ const ProductFormList = ({ arr, index, remove }) => {
           })
         );
         setCatagorys(newArray);
-      })
-      .catch((e) => console.log(e));
+      });
   }
   useEffect(() => {
     fetchCatagory();
@@ -55,7 +54,7 @@ const ProductFormList = ({ arr, index, remove }) => {
         </>
       )}
       <div>
-        Sản phẩm {index + 1}:
+        Sản phẩm {index}:
         <div style={{ textAlign: 'right' }}>
           <button
             type="button"
