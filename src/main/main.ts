@@ -211,8 +211,8 @@ autoUpdater.on('checking-for-update', () => {
 autoUpdater.on('update-available', () => {
   sendStatusToWindow('Update available.');
 });
-autoUpdater.on('update-not-available', () => {
-  sendStatusToWindow('Update not available.');
+autoUpdater.on('update-not-available', (event, releaseNotes, releaseName) => {
+  sendStatusToWindow(`${event} - ${releaseNotes} - ${releaseName}`);
 });
 autoUpdater.on('error', (err) => {
   sendStatusToWindow(`Error in auto-updater: ${err.toString()}`);
