@@ -199,7 +199,7 @@ app
 
 // Auto Update
 function sendStatusToWindow(text: string) {
-  log.info(text);
+  console.log(text);
   mainWindow.webContents.send('message', text);
 }
 
