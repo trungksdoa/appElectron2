@@ -15,6 +15,8 @@ root.render(<App />);
 // });
 window.electron.ipcRenderer.once('message', (event, text) => {
   // eslint-disable-next-line no-console
+  console.log('Ok');
+  // eslint-disable-next-line no-console
   console.log(event);
   // eslint-disable-next-line no-console
   console.log('Message from updater:', text);
