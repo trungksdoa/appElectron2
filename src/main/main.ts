@@ -198,14 +198,9 @@ app
   .catch(console.log);
 
 // Auto Update
-function sendStatusToWindow(text: any) {
-  // console.log(text)
-  dialog.showMessageBox(mainWindow, {
-    message: text,
-    type: 'info',
-    title: 'Thông báo',
-  });
-  // mainWindow.webContents.send('message', text)
+function sendStatusToWindow(text: string) {
+  console.log(text);
+  mainWindow.webContents.send('message', text);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -216,8 +211,8 @@ autoUpdater.on('checking-for-update', () => {
 autoUpdater.on('update-available', () => {
   sendStatusToWindow('Update available.');
 });
-autoUpdater.on('update-not-available', () => {
-  sendStatusToWindow('Update not available.');
+autoUpdater.on('update-not-available', (event) => {
+  sendStatusToWindow(`${event}`);
 });
 autoUpdater.on('error', (err) => {
   sendStatusToWindow(`Error in auto-updater: ${err.toString()}`);
