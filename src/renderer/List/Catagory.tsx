@@ -104,12 +104,12 @@ export default function Catagorys() {
       field: 'name',
       grouping: false,
       render: (rowData: CatagorysInterface) => {
-        console.log(rowData.name);
+        // console.log(rowData.name);
         return rowData.name;
       },
     },
   ];
-  console.log(catagorys);
+  // console.log(catagorys);
   //
   return (
     <>

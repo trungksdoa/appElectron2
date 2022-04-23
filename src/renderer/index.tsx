@@ -13,7 +13,7 @@ root.render(<App />);
 //   console.log('I am updated');
 
 // });
-window.electron.ipcRenderer.once('message', (event, text) => {
+window.electron.ipcRenderer.once('message', (event: any, text: any) => {
   // eslint-disable-next-line no-console
   console.log('Ok');
   // eslint-disable-next-line no-console

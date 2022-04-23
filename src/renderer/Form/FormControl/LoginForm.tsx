@@ -26,10 +26,11 @@ function Loginss() {
   const navigate = useNavigate();
   const SignupSchema = Yup.object().shape({
     username: Yup.string().required('Yêu cầu điền tên'),
-    password: Yup.number().required('Yêu cầu điền giá vào'),
+    password: Yup.number().required('Yêu cầu điền mật khẩu'),
   });
 
   const sendLogin = async (value: any) => {
+    console.log(value);
     await UserAPI.login(value)
       // eslint-disable-next-line promise/always-return
       .then((res) => {
@@ -43,7 +44,8 @@ function Loginss() {
         window.electron.ipcRenderer.sendMessage('Đăng nhập thành công');
       })
       .catch((err) => {
-        window.electron.ipcRenderer.sendError(err);
+        console.log(err);
+        // window.electron.ipcRenderer.sendError(err);
       });
     //
   };

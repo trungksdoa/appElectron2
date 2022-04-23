@@ -72,7 +72,7 @@ export default function MaterialTable(props) {
       handleRowDelete(oldData);
     }
   }
-  console.log(data)
+  // console.log(data)
   return (
     <>
       <MaterialTable
