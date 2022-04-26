@@ -108,8 +108,6 @@ export default function Catagorys() {
       },
     },
   ];
-  // console.log(catagorys);
-  //
   return (
     <>
       <MaterialTable
