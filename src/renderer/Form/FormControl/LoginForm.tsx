@@ -22,6 +22,7 @@ Loginss.propTypes = {
 Loginss.defaultProps = {
   onSubmit: null,
 };
+
 function Loginss() {
   const navigate = useNavigate();
   const SignupSchema = Yup.object().shape({
@@ -44,8 +45,7 @@ function Loginss() {
         window.electron.ipcRenderer.sendMessage('Đăng nhập thành công');
       })
       .catch((err) => {
-        console.log(err);
-        // window.electron.ipcRenderer.sendError(err);
+        window.electron.ipcRenderer.sendError(err);
       });
     //
   };
