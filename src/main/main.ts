@@ -118,7 +118,7 @@ const createWindow = async () => {
     event.reply('ipc-error-dialog', msgTemplate(message));
   });
 
-  ipcMain.on('ipc-example', async (event, arg) => {
+  ipcMain.on('ipc-example', async (event) => {
     const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
     event.reply('ipc-example', msgTemplate('pong'));
   });
