@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 // import DataTable from './MaterialTable';
-import { productAPI } from 'api/productAPI';
-import { CurrencyFormat } from 'words/words';
+import { productAPI } from '../../api/productAPI';
+import { CurrencyFormat } from '../../words/words';
 import MaterialTable from './MaterialTable';
 // import {getProducts} from 'server/productDB'
 /*eslint-disable */
