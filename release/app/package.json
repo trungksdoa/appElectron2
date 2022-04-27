@@ -1,6 +1,6 @@
 {
   "name": "ung_dung_ban_hang",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A foundation for scalable desktop apps",
   "main": "./dist/main/main.js",
   "author": {
