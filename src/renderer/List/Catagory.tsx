@@ -59,7 +59,9 @@ export default function Catagorys() {
 
   const handleRowUpdate = async (
     newData: never,
-    oldData: { tableData: { id: any } }
+    oldData: { tableData: { id: any } },
+    resolve: any,
+    reject: any
   ) => {
     await productAPI
       .updateCatagory(newData)
@@ -70,9 +72,12 @@ export default function Catagorys() {
         updateCatagory[index] = newData;
 
         setCatagorys(updateCatagory);
+
+        resolve();
       })
       .catch((e) => {
         window.electron.ipcRenderer.sendError(e);
+        reject();
       });
   };
 

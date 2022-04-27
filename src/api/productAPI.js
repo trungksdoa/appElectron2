@@ -28,14 +28,9 @@ export const productAPI = {
   },
   updateProduct: (data) => {
     return new Promise(function (resolve, reject) {
-      axios
-        .put(`${v1}product/`, data)
-        // eslint-disable-next-line promise/always-return
-        .then((res) => {
-          //
-          resolve(res);
-        })
-        .catch((error) => reject(error));
+      const res = axios.put(`${v1}product/`, data);
+
+      resolve(res);
     });
   },
   updateCatagory: (data) => {

@@ -6,6 +6,7 @@ import { CatagoryForm, LoginForm, ProductForm } from './Form';
 export default function App() {
   return (
     <Router>
+      <h3>Phiên bản 0.0.2</h3>
       <Stack direction="row" spacing={2} padding={5}>
         <Link
           style={{

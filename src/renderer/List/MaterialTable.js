@@ -52,6 +52,13 @@ MaterialTable.propTypes = {
   columns: proptype.array,
   title: proptype.string,
 };
+MaterialTable.defaultProps = {
+  dataValue: [],
+  handleRowUpdate: null,
+  handleRowDelete: null,
+  columns: [],
+  title: '',
+};
 // "Danh sách hàng hóa"
 export default function MaterialTable(props) {
   const { dataValue, columns, title, handleRowUpdate, handleRowDelete } = props;
@@ -64,10 +71,10 @@ export default function MaterialTable(props) {
   // function for updating the existing row details
   function updateData(newData, oldData, resolve, reject) {
     if (handleRowUpdate) {
-      handleRowUpdate(newData, oldData);
+      handleRowUpdate(newData, oldData, resolve, reject);
     }
   }
-  function deleteData(oldData, resolve, reject) {
+  function deleteData(oldData) {
     if (handleRowDelete) {
       handleRowDelete(oldData);
     }
@@ -87,15 +94,22 @@ export default function MaterialTable(props) {
           actionsColumnIndex: -1,
           search: true,
           grouping: true,
-          pageSize: 5
+          pageSize: 5,
         }}
         editable={{
-          onRowUpdate: (newData, oldData) =>{
-            updateData(newData, oldData);
-          },
-          onRowDelete: (oldData) =>{
-            deleteData(oldData);
-          },
+          onRowUpdate: (newData, oldData) =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                handleRowUpdate(newData, oldData, resolve, reject);
+              }, 1000);
+            }),
+          onRowDelete: (oldData) =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                handleRowDelete(oldData);
+                resolve();
+              }, 1000);
+            }),
         }}
         icons={tableIcons}
         title={title}
